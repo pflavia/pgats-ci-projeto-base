@@ -1,0 +1,30 @@
+
+name: 'Execução Agendada'
+
+on:
+    workflow_run:
+      workflows: ['Execução Agendada']
+      types: 
+          - completed
+    #  branches: [main]
+    
+jobs:
+    e2e-tests:
+        runs-on: ubuntu-latest            
+        steps:
+          - uses: actions/checkout@v4
+       #  - uses: actions/chesetup-node@v4
+      #     with:
+      #          node-version: lts/*
+          - name: Instalando Yarn
+            run: npm install -g yarn
+          - name: Instalando as dependências
+            run: yarn
+          - name: Teste E2E 
+            run: yarn run e2e
+            #passed,failed, cancelled
+          - uses: actions/upload-artifact@v4
+            if: ${{ !cancelled() }} # Only when test failed or cancelledfailure()
+            with:
+                  name: relatorio-de-testes
+                  path: ./playwright-report
