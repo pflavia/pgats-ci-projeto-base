@@ -15,3 +15,24 @@ jobs:
         # passo a passo das ações do job
         steps:
           - uses: actions/checkout@v4
+          #  - uses: actions/chesetup-node@v4 
+          #     with:
+          #          node-version: lts/*
+          - name: Instalando Yarn
+            run: npm install -g yarn
+
+          - name: Instalando as dependências
+            run: yarn playwright install
+
+          - name: Instalando Playwright
+            run: yarn  
+
+          - name: Teste E2E (end-to-end)
+            run: yarn run e2e
+
+            #passed,failed, cancelled
+          - uses: actions/upload-artifact@v4
+              11'tvrif: ${{ !cancelled() }} # Only when test failed or cancelledfailure()
+              name: relatorio-de-testes
+              path: ./playwright-report
+
