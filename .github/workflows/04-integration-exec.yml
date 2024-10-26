@@ -83,11 +83,8 @@ jobs:
       - name: Instalando dependências
         run: yarn
 
-      - name: Instalando Playwright
-        run: yarn playwright install
-
-      - name: Testes E2E (end-to-end)
-        run: yarn run e2e
+      - name: Testes Unitários
+        run: yarn run test
 
       # passed, failed, cancelled
       - uses: actions/upload-artifact@v4
@@ -98,3 +95,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [e2e-tests] # seeds: [e2e-tests]
+    steps:
+      - name: Deploy
+        run: echo "step Deploy"
